@@ -1,5 +1,6 @@
 package com.angellira.paris
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -21,25 +22,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private val marsApi = MarsApi.retrofitService
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
-
 
         lifecycleScope.launch {
             val listResult: List<MarsPhoto> = marsApi.getPhotos()
             Log.d("ListResult", "ListResult: ${listResult}")
             recyclerView = binding.textItensRecyclerview
             binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
-            val adapter = FotosListAdapter(listResult)
+            val adapter = FotosListAdapter(
+                listResult,
+                onItemClickListener = { photo ->
+                    val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
+                    startActivity(intent)
+                }
+            )
             recyclerView.adapter = adapter
         }
-
-
-
-
 
         binding.imageViewLogo.load("https://seeklogo.com/images/P/paris-2024-logo-EEA0228F1D-seeklogo.com.png")
     }

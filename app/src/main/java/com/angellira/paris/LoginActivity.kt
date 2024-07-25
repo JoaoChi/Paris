@@ -8,12 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.angellira.paris.databinding.ActivityLoginBinding
+import com.angellira.paris.preferences.PreferencesManager
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        preferencesManager = PreferencesManager(this)
+
         setupView()
 
         setupLoginButton()
@@ -27,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
 
             if (checkCredentials(email, password)) {
+                preferencesManager.isLogged = true
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

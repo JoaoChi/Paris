@@ -15,13 +15,15 @@
         android:theme="@style/Theme.Paris"
         tools:targetApi="31">
         <activity
+            android:name=".ClickImagemMars"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
