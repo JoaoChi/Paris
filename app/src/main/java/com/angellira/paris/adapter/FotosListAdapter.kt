@@ -3,20 +3,21 @@ package com.angellira.petvital1.recyclerview.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil.load
 import com.angellira.paris.databinding.ActivityRecyclerBinding
+import com.angellira.paris.model.MarsPhoto
 
-class ListAdapter(
-    private val preferencias: List<String>
-) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class FotosListAdapter(
+    private val preferencias: List<MarsPhoto>
+) : RecyclerView.Adapter<FotosListAdapter.ViewHolder>() {
 
     class ViewHolder(
         private val preferencesUsuarioBinding: ActivityRecyclerBinding
     ) :
         RecyclerView.ViewHolder(preferencesUsuarioBinding.root) {
 
-        fun bind(preferencia: String) {
-            preferencesUsuarioBinding.recyclerView.text = preferencia
+        fun bind(preferencia: MarsPhoto) {
+            preferencesUsuarioBinding.imageRecycler.load(preferencia)
         }
 
     }

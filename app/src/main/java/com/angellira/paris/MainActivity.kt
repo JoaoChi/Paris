@@ -7,35 +7,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.angellira.paris.databinding.ActivityMainBinding
 import com.angellira.paris.model.MarsPhoto
+import com.angellira.paris.databinding.ActivityMainBinding
 import com.angellira.paris.network.MarsApi
-import com.angellira.petvital1.recyclerview.adapter.ListAdapter
+import com.angellira.petvital1.recyclerview.adapter.FotosListAdapter
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var recyclerView: RecyclerView
+    private val marsApi = MarsApi.retrofitService
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
 
-        val marsApi = MarsApi.retrofitService
 
         lifecycleScope.launch {
-            val listResult: List<MarsPhoto> = marsApi.getphotos()
-            Log.d("ListResult", "listResult$listResult")
-            listResult.forEach{
-                Log.e("Mars", it.toString())
-            }
+            val listResult: List<MarsPhoto> = marsApi.getPhotos()
+            Log.d("ListResult", "ListResult: ${listResult}")
+            recyclerView = binding.textItensRecyclerview
+            binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
+            val adapter = FotosListAdapter(listResult)
+            recyclerView.adapter = adapter
         }
-        val adapter = ListAdapter(
-            preferencias = List(200){
-                "Imagem ${it + 1}"
-            }
-        )
-        binding.textItensRecyclerview.adapter = adapter
+
+
+
+
+
         binding.imageViewLogo.load("https://seeklogo.com/images/P/paris-2024-logo-EEA0228F1D-seeklogo.com.png")
     }
 
