@@ -24,7 +24,7 @@ class FotosListAdapter(
                 preferencesUsuarioBinding.root.setOnClickListener {
                     if (::preferencia.isInitialized) {
                         onItemClickListener(preferencia.img_src)
-                        onItemClickListener(preferencia.id)
+//                        onItemClickListener(preferencia.id)
                     }
                 }
             }

@@ -14,6 +14,8 @@ import coil.load
 import com.angellira.paris.model.MarsPhoto
 import com.angellira.paris.databinding.ActivityMainBinding
 import com.angellira.paris.network.MarsApi
+import com.angellira.paris.network.ParisApi
+import com.angellira.paris.preferences.PreferencesManager
 import com.angellira.petvital1.recyclerview.adapter.FotosListAdapter
 import kotlinx.coroutines.launch
 
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
     private val marsApi = MarsApi.retrofitService
+    private val parisApi = ParisApi.retrofitService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +36,9 @@ class MainActivity : AppCompatActivity() {
             binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
             val adapter = FotosListAdapter(
                 listResult,
-                onItemClickListener = { photo ->
+                onItemClickListener = { preferencia ->
                     val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
+                    intent.putExtra("photo_mars", preferencia)
                     startActivity(intent)
                 }
             )
@@ -43,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.imageViewLogo.load("https://seeklogo.com/images/P/paris-2024-logo-EEA0228F1D-seeklogo.com.png")
     }
-
     private fun setupView() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)

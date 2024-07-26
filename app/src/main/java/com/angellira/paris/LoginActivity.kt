@@ -44,8 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupRegisterButton() {
         binding.registerTextView.setOnClickListener {
-            // criar a tela de cadastro que vai enviar as informações para o webapi
-            Toast.makeText(this, "Criar a tela de cadastro", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, CadastroActivity::class.java))
         }
     }
 
