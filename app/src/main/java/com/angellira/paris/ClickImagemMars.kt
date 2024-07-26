@@ -16,7 +16,7 @@ class ClickImagemMars : AppCompatActivity() {
         binding = ActivityClickImagemMarsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val pegandoId = intent.getStringExtra("photo_mars")
+        val pegandoId = intent.getStringExtra("id_mars")
         val pegandoPhoto = intent.getStringExtra("photo_mars")
 
         binding.imageOpen.load(pegandoPhoto)

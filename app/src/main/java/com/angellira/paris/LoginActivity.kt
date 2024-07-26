@@ -34,10 +34,10 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-            val users = ParisApi.retrofitService.getUsers()
-            val usersExist = users.values.any { it.email == email && it.password == password }
+//            val users = ParisApi.retrofitService.getUsers()
+//            val usersExist = users.values.any { it.email == email && it.password == password }
 
-            if (usersExist) {
+            if (checkCredentials(email, password)) {
                 preferencesManager.isLogged = true
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

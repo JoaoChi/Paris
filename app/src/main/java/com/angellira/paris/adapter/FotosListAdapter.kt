@@ -10,7 +10,7 @@ import com.angellira.paris.model.MarsPhoto
 
 class FotosListAdapter(
     private val preferencias: List<MarsPhoto>,
-    private val onItemClickListener: (String) -> Unit
+    private val onItemClickListener: (String, String) -> Unit
 ) : RecyclerView.Adapter<FotosListAdapter.ViewHolder>() {
 
     inner class ViewHolder(
@@ -23,8 +23,7 @@ class FotosListAdapter(
             init {
                 preferencesUsuarioBinding.root.setOnClickListener {
                     if (::preferencia.isInitialized) {
-                        onItemClickListener(preferencia.img_src)
-//                        onItemClickListener(preferencia.id)
+                        onItemClickListener(preferencia.img_src, preferencia.id)
                     }
                 }
             }

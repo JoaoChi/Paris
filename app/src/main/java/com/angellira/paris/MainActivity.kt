@@ -36,9 +36,10 @@ class MainActivity : AppCompatActivity() {
             binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
             val adapter = FotosListAdapter(
                 listResult,
-                onItemClickListener = { preferencia ->
+                onItemClickListener = { source, id ->
                     val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
-                    intent.putExtra("photo_mars", preferencia)
+                    intent.putExtra("photo_mars", source)
+                    intent.putExtra("id_mars", id)
                     startActivity(intent)
                 }
             )
