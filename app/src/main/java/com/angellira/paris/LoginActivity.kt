@@ -7,12 +7,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.angellira.paris.databinding.ActivityLoginBinding
+import com.angellira.paris.network.ParisApi
+import com.angellira.paris.network.User
 import com.angellira.paris.preferences.PreferencesManager
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferencesManager: PreferencesManager
+    private val parisApi = ParisApi.retrofitService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +25,8 @@ class LoginActivity : AppCompatActivity() {
         preferencesManager = PreferencesManager(this)
 
         setupView()
-
         setupLoginButton()
         setupRegisterButton()
-
     }
 
     private fun setupLoginButton() {
@@ -31,7 +34,10 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-            if (checkCredentials(email, password)) {
+            val users = ParisApi.retrofitService.getUsers()
+            val usersExist = users.values.any { it.email == email && it.password == password }
+
+            if (usersExist) {
                 preferencesManager.isLogged = true
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
