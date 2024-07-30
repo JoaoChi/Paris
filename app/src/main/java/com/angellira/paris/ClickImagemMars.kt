@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.angellira.paris.databinding.ActivityClickImagemMarsBinding
 
-private lateinit var binding: ActivityClickImagemMarsBinding
 
 class ClickImagemMars : AppCompatActivity() {
+    private lateinit var binding: ActivityClickImagemMarsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Paris</string>
     <string name="title">Este email já existe</string>
-    <string name="supporting_text">Você pode criar a conta com outro email disponivel: , ou fazer login com este.</string>
+    <string name="supporting_text">Você pode criar a conta com outro email disponivel: %s, ou fazer login com este.</string>
     <string name="cancel">Cancelar</string>
     <string name="decline">Rejeitar</string>
     <string name="accept">Aceitar</string>

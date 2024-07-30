@@ -15,6 +15,7 @@ class CadastroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCadastroBinding
     private val parisApi = ParisApi.retrofitService
+    lateinit var users: Map<String, User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class CadastroActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val isValid = checkEmail(email)
                 if (isValid) {
-                    cardJaExiste(context)
+                    cardJaExiste(email)
                 } else {
                     parisApi.saveUser(user)
                     val loginActivity = Intent(context, LoginActivity::class.java)
@@ -50,10 +51,10 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    private fun cardJaExiste(context: CadastroActivity) {
-        MaterialAlertDialogBuilder(context)
+    private fun cardJaExiste(email: String) {
+        MaterialAlertDialogBuilder(this)
             .setTitle(resources.getString(R.string.title))
-            .setMessage(resources.getString(R.string.supporting_text))
+            .setMessage(getString(R.string.supporting_text, suggestNewEmail(email)))
 
             .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
             }
@@ -66,15 +67,16 @@ class CadastroActivity : AppCompatActivity() {
 
     private suspend fun checkEmail(email: String): Boolean {
         return if (email.isNotEmpty()) {
-            val users = parisApi.getUsers()
+            users = parisApi.getUsers()
             users.values.any { it.email == email }
         } else {
             false
         }
     }
-    fun suggestNewEmail(existingEmails: List<String>, email: String): String {
+    fun suggestNewEmail(email: String): String {
         var suggestedEmail = email
         var counter = 1
+        val existingEmails = users.values.map { it.email }
 
         while (existingEmails.contains(suggestedEmail)) {
             val emailParts = email.split("@")

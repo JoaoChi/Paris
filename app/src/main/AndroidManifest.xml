@@ -15,8 +15,12 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".CadastroActivity"
+            android:name=".ProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".CadastroActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.Paris" />
         <activity
             android:name=".ClickImagemMars"
             android:exported="false" />
