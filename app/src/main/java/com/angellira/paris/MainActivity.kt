@@ -27,8 +27,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupView()
 
+        toolBar()
+        setupView()
+        mandandoImagens()
+        trocaFundo()
+    }
+
+    private fun toolBar() {
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.barra_tarefas))
+    }
+
+    private fun trocaFundo() {
+        binding.imageViewLogo.load("https://seeklogo.com/images/P/paris-2024-logo-EEA0228F1D-seeklogo.com.png")
+    }
+
+    private fun mandandoImagens() {
         lifecycleScope.launch {
             val listResult: List<MarsPhoto> = marsApi.getPhotos()
             Log.d("ListResult", "ListResult: ${listResult}")
@@ -45,9 +60,8 @@ class MainActivity : AppCompatActivity() {
             )
             recyclerView.adapter = adapter
         }
-
-        binding.imageViewLogo.load("https://seeklogo.com/images/P/paris-2024-logo-EEA0228F1D-seeklogo.com.png")
     }
+
     private fun setupView() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)

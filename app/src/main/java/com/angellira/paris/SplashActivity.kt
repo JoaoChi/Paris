@@ -26,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
 
         preferencesManager = PreferencesManager(this)
         checkLogin()
-
     }
 
     private fun setupView() {

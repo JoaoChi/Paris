@@ -19,11 +19,16 @@ class CadastroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding()
+        validacaoCadastro()
+    }
+
+    private fun binding() {
         binding = ActivityCadastroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
-
-
+    private fun validacaoCadastro() {
         binding.buttonCadastro.setOnClickListener {
             val name = binding.textNome.text.toString()
             val email = binding.textEmail.text.toString()
@@ -34,20 +39,9 @@ class CadastroActivity : AppCompatActivity() {
             val user = User(name, email, password, img)
             lifecycleScope.launch {
                 val isValid = checkEmail(email)
-                if (isValid){
-                    MaterialAlertDialogBuilder(context)
-                        .setTitle(resources.getString(R.string.title))
-                        .setMessage(resources.getString(R.string.supporting_text))
-
-                        .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
-                        }
-                        .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
-                        }
-                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                        }
-                        .show()
-                }
-                else{
+                if (isValid) {
+                    cardJaExiste(context)
+                } else {
                     parisApi.saveUser(user)
                     val loginActivity = Intent(context, LoginActivity::class.java)
                     startActivity(loginActivity)
@@ -55,6 +49,21 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun cardJaExiste(context: CadastroActivity) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(resources.getString(R.string.title))
+            .setMessage(resources.getString(R.string.supporting_text))
+
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+            }
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+            }
+            .show()
+    }
+
     private suspend fun checkEmail(email: String): Boolean {
         return if (email.isNotEmpty()) {
             val users = parisApi.getUsers()

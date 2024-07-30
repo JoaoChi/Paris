@@ -13,9 +13,16 @@ class ClickImagemMars : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        binding()
+        loadFotoID()
+    }
+
+    private fun binding() {
         binding = ActivityClickImagemMarsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
+    private fun loadFotoID() {
         val pegandoId = intent.getStringExtra("id_mars")
         val pegandoPhoto = intent.getStringExtra("photo_mars")
 
