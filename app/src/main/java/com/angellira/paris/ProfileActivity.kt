@@ -110,7 +110,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun deleteUser() {
-        binding.botaoExcluirSenha.setOnClickListener {
             lifecycleScope.launch {
                 try {
                     val Id = preferencesManager.getUserID()
@@ -120,7 +119,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 } catch (e: Exception) {
                 }
-            }
+
         }
     }
 }
