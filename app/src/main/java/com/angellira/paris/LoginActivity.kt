@@ -46,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(context, "Email ou senha inválidos.", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
     }
 

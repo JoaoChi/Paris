@@ -4,10 +4,13 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.http.Body  
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 
@@ -28,6 +31,12 @@ interface ParisApiService{
 
     @POST("users.json")
     suspend fun saveUser(@Body user: User)
+
+    @PUT("users/{id}.json")
+    fun editUser(@Path("id") userId: Int, @Body user: User): Call<User>
+
+    @DELETE("users/{id}.json")
+    fun deleteUser(@Path("id") id: String) : User
 }
 
 @Serializable
@@ -43,3 +52,4 @@ data class User(
           retrofit.create(ParisApiService::class.java)
       }
   }
+

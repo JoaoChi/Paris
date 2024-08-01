@@ -2,12 +2,14 @@ package com.angellira.paris
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.angellira.paris.databinding.ActivityCadastroBinding
 import com.angellira.paris.network.ParisApi
 import com.angellira.paris.network.User
+import com.angellira.paris.preferences.PreferencesManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
@@ -16,6 +18,7 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
     private val parisApi = ParisApi.retrofitService
     lateinit var users: Map<String, User>
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,8 @@ class CadastroActivity : AppCompatActivity() {
                     cardJaExiste(email)
                 } else {
                     parisApi.saveUser(user)
+//                    val idDoUsuario = parisApi.getUsers().keys.find { email == user?.email }
+//                    preferencesManager.userId = idDoUsuario.toString()
                     val loginActivity = Intent(context, LoginActivity::class.java)
                     startActivity(loginActivity)
                 }
@@ -73,6 +78,7 @@ class CadastroActivity : AppCompatActivity() {
             false
         }
     }
+
     fun suggestNewEmail(email: String): String {
         var suggestedEmail = email
         var counter = 1

@@ -11,12 +11,66 @@
         android:id="@+id/barra_tarefasProfile"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#D1D1D1"
+        android:background="#D5C178"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <Button
+        android:id="@+id/botaoAtualizaSenha"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Atualizar Senha"
+        android:backgroundTint="#D5C178"
+        android:textColor="#423402"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barra_tarefasProfile"
+        app:layout_constraintVertical_bias="0.574" />
+
+    <Button
+        android:id="@+id/botaoExcluirSenha"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Excluir Conta"
+        android:backgroundTint="#D5C178"
+        android:textColor="#423402"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botaoAtualizaSenha"
+        app:layout_constraintVertical_bias="0.127" />
+
+    <Button
+        android:id="@+id/botaoDeslogar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:backgroundTint="#D5C178"
+        android:text="Deslogar"
+        android:textColor="#423402"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botaoExcluirSenha"
+        app:layout_constraintVertical_bias="0.162" />
+
+    <ImageView
+        android:id="@+id/imageView_logo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/botaoAtualizaSenha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
