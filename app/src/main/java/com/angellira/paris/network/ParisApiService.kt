@@ -33,7 +33,7 @@ interface ParisApiService{
     suspend fun saveUser(@Body user: User)
 
     @PUT("users/{id}.json")
-    fun editUser(@Path("id") userId: Int, @Body user: User): Call<User>
+    suspend fun editUser(@Path("id") userId: Int, @Body user: User): Call<User>
 
     @DELETE("users/{id}.json")
     fun deleteUser(@Path("id") id: String) : User
