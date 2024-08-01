@@ -1,10 +1,15 @@
 package com.angellira.paris
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.angellira.paris.databinding.ActivityClickImagemMarsBinding
+import kotlinx.coroutines.launch
 
 
 class ClickImagemMars : AppCompatActivity() {
@@ -17,16 +22,41 @@ class ClickImagemMars : AppCompatActivity() {
         loadFotoID()
     }
 
+    private fun abrirCalendario(context: Context, pegandoNome: String) {
+            binding.botaoCalendario.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val pegandoNome = pegandoNome?.toLowerCase()
+            val url = ("https://olympics.com/pt/paris-2024/calendario/$pegandoNome")
+            intent.data = Uri.parse(url)
+            context.startActivity(intent)
+        }
+    }
+
+    private fun abrirMedalhas(context: Context, pegandoNome: String) {
+            binding.botaoMedalhas.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val pegandoNome = pegandoNome?.toLowerCase()
+            val url = ("https://olympics.com/pt/paris-2024/esportes/$pegandoNome")
+            intent.data = Uri.parse(url)
+            context.startActivity(intent)
+        }
+    }
+
     private fun binding() {
         binding = ActivityClickImagemMarsBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
     private fun loadFotoID() {
-        val pegandoId = intent.getStringExtra("id_mars")
+        val pegandoNome = intent.getStringExtra("nome_esporte")
         val pegandoPhoto = intent.getStringExtra("photo_mars")
+        val pegandoDescricao = intent.getStringExtra("descricao")
 
+        binding.textDescription.text = "Descrição: $pegandoDescricao"
         binding.imageOpen.load(pegandoPhoto)
-        binding.textId.text = "id$pegandoId"
+        binding.textId.text = "Nome: $pegandoNome"
+
+        abrirCalendario(this, pegandoNome.toString())
+        abrirMedalhas(this, pegandoNome.toString())
     }
 }

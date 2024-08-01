@@ -1,6 +1,8 @@
 package com.angellira.paris
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,21 +25,24 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val SharedPref = getSharedPreferences(
+            "Preferencias", Context.MODE_PRIVATE
+        )
         preferencesManager = PreferencesManager(this)
 
         setupView()
-        setupLoginButton()
+        setupLoginButton(SharedPref)
         setupRegisterButton()
     }
 
-    private fun setupLoginButton() {
+    private fun setupLoginButton(SharedPref: SharedPreferences) {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             val context = this
 
             lifecycleScope.launch {
-                val isValid = checkCredentials(email, password)
+                val isValid = checkCredentials(email, password, SharedPref)
                 if (isValid) {
                     val startMain = Intent(context, MainActivity::class.java)
                     startActivity(startMain)
@@ -67,10 +72,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        private suspend fun checkCredentials(email: String, password: String): Boolean {
+        private suspend fun checkCredentials(email: String, password: String, SharedPref: SharedPreferences): Boolean {
             return if (email.isNotEmpty() && password.isNotEmpty()) {
                 val users = parisApi.getUsers()
                 users.values.any { it.email == email && it.password == password }
+//                val userId = users.entries.find { it.value.email == email }?.key
+//                SharedPref.edit().putString("Id",userId).apply()
             } else {
                 false
             }

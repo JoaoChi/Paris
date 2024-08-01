@@ -6,8 +6,6 @@ const val USER_PREFERENCES = "USER_PREFERENCES"
 
 class PreferencesManager (context: Context){
 
-//    lateinit var userId: String
-
     private val sharedPreferences =
         context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE)
 

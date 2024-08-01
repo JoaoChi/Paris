@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.angellira.paris.databinding.ActivityMainBinding
-import com.angellira.paris.model.MarsPhoto
+import com.angellira.paris.model.SportPhoto
 import com.angellira.paris.network.MarsApi
 import com.angellira.petvital1.recyclerview.adapter.FotosListAdapter
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
-    private val marsApi = MarsApi.retrofitService
+    private val olimpiadas = MarsApi.retrofitService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,16 +39,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun mandandoImagens() {
         lifecycleScope.launch {
-            val listResult: List<MarsPhoto> = marsApi.getPhotos()
-            Log.d("ListResult", "ListResult: ${listResult}")
+            val listSports = olimpiadas.getPhotos().values.toList()
+            Log.d("ListResult", "ListResult: ${listSports}")
             recyclerView = binding.textItensRecyclerview
             binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
             val adapter = FotosListAdapter(
-                listResult,
-                onItemClickListener = { source, id ->
+                listSports,
+                onItemClickListener = { source, nome, descricao ->
                     val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
+                    intent.putExtra("descricao", descricao)
                     intent.putExtra("photo_mars", source)
-                    intent.putExtra("id_mars", id)
+                    intent.putExtra("nome_esporte", nome)
                     startActivity(intent)
                 }
             )

@@ -2,15 +2,14 @@ package com.angellira.petvital1.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.angellira.paris.databinding.ActivityRecyclerBinding
-import com.angellira.paris.model.MarsPhoto
+import com.angellira.paris.model.SportPhoto
 
 class FotosListAdapter(
-    private val preferencias: List<MarsPhoto>,
-    private val onItemClickListener: (String, String) -> Unit
+    private val posts: List<SportPhoto>,
+    private val onItemClickListener: (String, String, String) -> Unit
 ) : RecyclerView.Adapter<FotosListAdapter.ViewHolder>() {
 
     inner class ViewHolder(
@@ -18,20 +17,20 @@ class FotosListAdapter(
     ) :
         RecyclerView.ViewHolder(preferencesUsuarioBinding.root) {
 
-            private lateinit var preferencia: MarsPhoto
+            private lateinit var post: SportPhoto
 
             init {
                 preferencesUsuarioBinding.root.setOnClickListener {
-                    if (::preferencia.isInitialized) {
-                        onItemClickListener(preferencia.img_src, preferencia.id)
+                    if (::post.isInitialized) {
+                        onItemClickListener(post.img, post.name, post.description)
                     }
                 }
             }
 
-        fun bind(preferencia: MarsPhoto) {
-            this.preferencia = preferencia
-            preferencesUsuarioBinding.imageRecycler.load(preferencia.img_src)
-            preferencesUsuarioBinding.itemTitleMarsTextView.setText(preferencia.id)
+        fun bind(preferencia: SportPhoto) {
+            this.post = preferencia
+            preferencesUsuarioBinding.imageRecycler.load(post.img)
+            preferencesUsuarioBinding.itemTitleMarsTextView.setText(post.name)
         }
 
     }
@@ -48,11 +47,11 @@ class FotosListAdapter(
             )
         )
 
-    override fun getItemCount(): Int = preferencias.size
+    override fun getItemCount(): Int = posts.size
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val preferencia = preferencias[position]
-        holder.bind(preferencia)
+    override fun onBindViewHolder(holder: ViewHolder,   position: Int) {
+        val preferencia = posts[position]
+        holder.bind(preferencia!!)
     }
 }
