@@ -25,25 +25,24 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val SharedPref = getSharedPreferences(
-            "Preferencias", Context.MODE_PRIVATE
-        )
+
         preferencesManager = PreferencesManager(this)
 
         setupView()
-        setupLoginButton(SharedPref)
+        setupLoginButton()
         setupRegisterButton()
     }
 
-    private fun setupLoginButton(SharedPref: SharedPreferences) {
+    private fun setupLoginButton() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             val context = this
 
             lifecycleScope.launch {
-                val isValid = checkCredentials(email, password, SharedPref)
+                val isValid = checkCredentials(email, password)
                 if (isValid) {
+                    preferencesManager.getUserID()
                     val startMain = Intent(context, MainActivity::class.java)
                     startActivity(startMain)
                     finish()
@@ -72,12 +71,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        private suspend fun checkCredentials(email: String, password: String, SharedPref: SharedPreferences): Boolean {
+        private suspend fun checkCredentials(email: String, password: String): Boolean {
             return if (email.isNotEmpty() && password.isNotEmpty()) {
                 val users = parisApi.getUsers()
                 users.values.any { it.email == email && it.password == password }
-//                val userId = users.entries.find { it.value.email == email }?.key
-//                SharedPref.edit().putString("Id",userId).apply()
             } else {
                 false
             }

@@ -9,10 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.angellira.paris.databinding.ActivityProfileBinding
 import com.angellira.paris.network.ParisApi
 import com.angellira.paris.network.User
 import com.angellira.paris.preferences.PreferencesManager
+import kotlinx.coroutines.launch
 import okhttp3.Callback
 import okhttp3.Response
 import retrofit2.Call
@@ -21,6 +23,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var preferencesManager: PreferencesManager
+    private val parisApi = ParisApi.retrofitService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +61,7 @@ class ProfileActivity : AppCompatActivity() {
             .setMessage("Certeza que deseja excluir sua conta? você não poderá recuperá-la depois!")
             .setTitle("Excluir Conta: ")
             .setPositiveButton("Sim") { dialog, wich ->
-//                deleteUser()
+                deleteUser()
                 Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))
             }
@@ -106,7 +109,18 @@ class ProfileActivity : AppCompatActivity() {
         return true
     }
 
-//    private fun deleteUser(){
-//        parisApi.deleteUser(preferencesManager.userId)
-//    }
+    private fun deleteUser() {
+        binding.botaoExcluirSenha.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    val Id = preferencesManager.getUserID()
+                    parisApi.deleteUser(Id)
+                    startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
+                    finish()
+
+                } catch (e: Exception) {
+                }
+            }
+        }
+    }
 }
