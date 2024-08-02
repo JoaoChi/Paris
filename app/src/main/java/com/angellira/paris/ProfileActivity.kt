@@ -110,16 +110,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun deleteUser() {
-            lifecycleScope.launch {
-                try {
-                    val Id = preferencesManager.getUserID()
-                    parisApi.deleteUser(Id)
-                    startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
-                    finish()
-
-                } catch (e: Exception) {
-                }
-
+        lifecycleScope.launch {
         }
     }
 }

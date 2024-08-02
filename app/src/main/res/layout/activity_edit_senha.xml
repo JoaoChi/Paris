@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textSenha1" />
 
     <Button
-        android:id="@+id/buttonCadastro"
+        android:id="@+id/buttonConfirmar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="188dp"

@@ -2,9 +2,12 @@ package com.angellira.paris
 
 import android.content.Intent
 import android.os.Bundle
+import android.service.voice.VisibleActivityInfo
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,7 +20,10 @@ import com.angellira.paris.databinding.ActivityMainBinding
 import com.angellira.paris.model.SportPhoto
 import com.angellira.paris.network.MarsApi
 import com.angellira.petvital1.recyclerview.adapter.FotosListAdapter
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         setupView()
         setSupportActionBar(findViewById(R.id.barra_tarefas))
 
+        try {
+            fetchDataFromServer()
+        }catch(e: NoInternetConnectionException) {
+                println("Erro: ${e.message}")
+            }
+        
         mandandoImagens()
         trocaFundo()
     }
@@ -38,24 +50,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mandandoImagens() {
-        lifecycleScope.launch {
-            val listSports = olimpiadas.getPhotos().values.toList()
-            Log.d("ListResult", "ListResult: ${listSports}")
-            recyclerView = binding.textItensRecyclerview
-            binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
-            val adapter = FotosListAdapter(
-                listSports,
-                onItemClickListener = { source, nome, descricao ->
-                    val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
-                    intent.putExtra("descricao", descricao)
-                    intent.putExtra("photo_mars", source)
-                    intent.putExtra("nome_esporte", nome)
-                    startActivity(intent)
-                }
-            )
-            recyclerView.adapter = adapter
+            lifecycleScope.launch {
+                delay(1.seconds)
+                val listSports = olimpiadas.getPhotos().values.toList()
+                Log.d("ListResult", "ListResult: ${listSports}")
+                recyclerView = binding.textItensRecyclerview
+                binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
+                val adapter = FotosListAdapter(
+                    listSports,
+                    onItemClickListener = { source, nome, descricao ->
+                        val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
+                        intent.putExtra("descricao", descricao)
+                        intent.putExtra("photo_mars", source)
+                        intent.putExtra("nome_esporte", nome)
+                        startActivity(intent)
+                    }
+                )
+                recyclerView.adapter = adapter
+                binding.mainLayout.visibility = VISIBLE
+                binding.loadingLayout.visibility = GONE
+            }
         }
-    }
+
 
     private fun setupView() {
         enableEdgeToEdge()
@@ -80,6 +96,16 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+    class NoInternetConnectionException(message: String) : Exception(message)
+
+
+    private fun fetchDataFromServer() {
+        val hasInternetConnection = false
+
+        if (!hasInternetConnection) {
+            throw NoInternetConnectionException("Não há conexão à internet.")
         }
     }
 

@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/barra_tarefas"
         android:layout_width="match_parent"
@@ -18,7 +24,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
     <ImageView
         android:id="@+id/imageView_logo"
         android:layout_width="300dp"
@@ -30,7 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_1" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/textItensRecyclerview"
         android:layout_width="match_parent"
@@ -44,6 +48,41 @@
         tools:layout_editor_absoluteX="12dp"
         tools:text="" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-52dp">
+
+        <ImageView
+            android:id="@+id/logoOlimpiadas"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_1" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carregando"
+            android:textStyle="bold"
+            />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
