@@ -1,14 +1,15 @@
 package com.angellira.paris
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.service.voice.VisibleActivityInfo
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,10 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.angellira.paris.databinding.ActivityMainBinding
-import com.angellira.paris.model.SportPhoto
 import com.angellira.paris.network.MarsApi
 import com.angellira.petvital1.recyclerview.adapter.FotosListAdapter
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -34,15 +33,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
         setSupportActionBar(findViewById(R.id.barra_tarefas))
-
-        try {
-            fetchDataFromServer()
-        }catch(e: NoInternetConnectionException) {
-                println("Erro: ${e.message}")
-            }
-        
         mandandoImagens()
         trocaFundo()
+
     }
 
     private fun trocaFundo() {
@@ -50,12 +43,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mandandoImagens() {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            try {
                 delay(1.seconds)
                 val listSports = olimpiadas.getPhotos().values.toList()
                 Log.d("ListResult", "ListResult: ${listSports}")
                 recyclerView = binding.textItensRecyclerview
-                binding.textItensRecyclerview.layoutManager = LinearLayoutManager(this@MainActivity)
+                binding.textItensRecyclerview.layoutManager =
+                    LinearLayoutManager(this@MainActivity)
                 val adapter = FotosListAdapter(
                     listSports,
                     onItemClickListener = { source, nome, descricao ->
@@ -69,6 +64,13 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.adapter = adapter
                 binding.mainLayout.visibility = VISIBLE
                 binding.loadingLayout.visibility = GONE
+                binding.semInternet.visibility = GONE
+
+            } catch (e: Exception) {
+                binding.loadingLayout.visibility = GONE
+                binding.mainLayout.visibility = GONE
+                binding.semInternet.visibility = VISIBLE
+                }
             }
         }
 
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.itens, menu)
         return true
@@ -95,18 +98,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, ProfileActivity::class.java))
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
-    class NoInternetConnectionException(message: String) : Exception(message)
-
-
-    private fun fetchDataFromServer() {
-        val hasInternetConnection = false
-
-        if (!hasInternetConnection) {
-            throw NoInternetConnectionException("Não há conexão à internet.")
-        }
-    }
-
 }

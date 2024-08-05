@@ -1,11 +1,15 @@
 package com.angellira.paris
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,10 +34,14 @@ class LoginActivity : AppCompatActivity() {
 
         preferencesManager = PreferencesManager(this)
 
-        setupView()
-        setupLoginButton(SharedPref)
-        setupRegisterButton()
+            setContentView(R.layout.activity_main)
+            setupView()
+            setupLoginButton(SharedPref)
+            setupRegisterButton()
+
     }
+
+
 
     private fun setupLoginButton(SharedPref: SharedPreferences) {
         binding.loginButton.setOnClickListener {
@@ -75,8 +83,8 @@ class LoginActivity : AppCompatActivity() {
         private suspend fun checkCredentials(email: String, password: String, SharedPref: SharedPreferences): Boolean {
             return if (email.isNotEmpty() && password.isNotEmpty()) {
                 val users = parisApi.getUsers()
-                val userId = users.entries.find { it.value.email == email }?.key
-                SharedPref.edit().putString("Id",userId).apply()
+                preferencesManager.userId = users.entries.find { it.value.email == email }?.key
+                SharedPref.edit().putString("Id", preferencesManager.userId).apply()
                 users.values.any { it.email == email && it.password == password }
             } else {
                 false

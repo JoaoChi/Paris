@@ -61,9 +61,11 @@ class ProfileActivity : AppCompatActivity() {
             .setMessage("Certeza que deseja excluir sua conta? você não poderá recuperá-la depois!")
             .setTitle("Excluir Conta: ")
             .setPositiveButton("Sim") { dialog, wich ->
+                startActivity(Intent(this, LoginActivity::class.java))
                 deleteUser()
                 Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
+                preferencesManager.isLogged = false
+                finish()
             }
             .setNegativeButton("Não") { dialog, wich ->
                 Toast.makeText(this, "Sua conta não foi cancelada", Toast.LENGTH_SHORT).show()
@@ -111,6 +113,8 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun deleteUser() {
         lifecycleScope.launch {
+            val id = preferencesManager.userId
+            parisApi.deleteUser(id.toString())
         }
     }
 }
