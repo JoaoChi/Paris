@@ -36,7 +36,7 @@ interface ParisApiService{
     suspend fun editUser(@Path("id") id: String, @Body user: User): Response<Unit>
 
     @DELETE("users/{id}.json")
-    fun deleteUser(@Path("id") id: String) : User
+    suspend fun deleteUser(@Path("id") id: String) : User
 }
 
 @Serializable

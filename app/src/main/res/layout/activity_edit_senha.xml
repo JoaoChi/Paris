@@ -50,6 +50,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textSenha2"
         app:layout_constraintVertical_bias="0.987" />
 
+    <Button
+        android:id="@+id/buttonVolta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="112dp"
+        android:backgroundTint="#D5C178"
+        android:text="Voltar "
+        android:textColor="#423402"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonConfirmar"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/textAtualizarSenha"
         android:layout_width="wrap_content"

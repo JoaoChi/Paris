@@ -30,10 +30,11 @@ class EditSenha : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferencesManager = PreferencesManager(this)
 
         setupView()
         editSenha()
-
+        botaoVoltar()
     }
 
     private fun editSenha() {
@@ -56,38 +57,33 @@ class EditSenha : AppCompatActivity() {
                     val novasenha = binding.textSenha1.text.toString()
                     val novasenha2 = binding.textSenha2.text.toString()
 
-                    if (AtualPassword == novasenha) {
-                        Toast.makeText(this@EditSenha, "Digite uma senha diferente da atual!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        if (novasenha.isEmpty() || novasenha2.isEmpty()) {
-                            Toast.makeText(this@EditSenha, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            if (novasenha != novasenha2) {
-                                Toast.makeText(this@EditSenha, "Os campos devem ser iguais", Toast.LENGTH_SHORT).show()
-                            } else {
-                                val editUser = User(users.name, users.email, novasenha, users.img)
-                                val response = abriAtualizacaoSenha(editUser, meuID.toString())
+                    if (AtualPassword != novasenha
+                        && novasenha2.isNotEmpty()
+                        && novasenha.isNotEmpty()
+                        && novasenha == novasenha2) {
+                        val editarUsuario = User(Nome, email, novasenha, image)
+                        val response = parisApi.editUser(meuID, editarUsuario)
 
-                                if (response.isSuccessful) {
-                                    Toast.makeText(this@EditSenha, "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(this@EditSenha, "Erro ao atualizar a senha: ${response.message()}", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@EditSenha, "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@EditSenha, "Erro ao atualizar a senha.", Toast.LENGTH_SHORT).show()
                         }
                     }
+
                 } catch (e: Exception) {
-                    Toast.makeText(this@EditSenha, "Erro ao buscar usuário: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditSenha, "Erro ao buscar usuário.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private suspend fun abriAtualizacaoSenha(user: User, userId: String): Response<Unit> {
-        return parisApi.editUser(userId, user)
+
+private fun botaoVoltar(){
+    binding.buttonVolta.setOnClickListener(){
+        startActivity(Intent(this, ProfileActivity::class.java))
     }
-
-
+}
 
 
     private fun setupView() {
