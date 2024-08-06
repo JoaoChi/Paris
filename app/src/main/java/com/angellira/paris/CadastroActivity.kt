@@ -18,7 +18,6 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
     private val parisApi = ParisApi.retrofitService
     lateinit var users: Map<String, User>
-    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +46,6 @@ class CadastroActivity : AppCompatActivity() {
                     cardJaExiste(email)
                 } else {
                     parisApi.saveUser(user)
-//                    val idDoUsuario = parisApi.getUsers().keys.find { email == user?.email }
-//                    preferencesManager.userId = idDoUsuario.toString()
                     val loginActivity = Intent(context, LoginActivity::class.java)
                     startActivity(loginActivity)
                 }
