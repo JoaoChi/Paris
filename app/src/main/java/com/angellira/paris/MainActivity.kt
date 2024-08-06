@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private fun mandandoImagens() {
         lifecycleScope.launch {
             try {
+                binding.semInternet.visibility = GONE
                 delay(1.seconds)
                 val listSports = olimpiadas.getPhotos().values.toList()
                 Log.d("ListResult", "ListResult: ${listSports}")
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.adapter = adapter
                 binding.mainLayout.visibility = VISIBLE
                 binding.loadingLayout.visibility = GONE
-                binding.semInternet.visibility = GONE
 
             } catch (e: Exception) {
                 binding.loadingLayout.visibility = GONE
