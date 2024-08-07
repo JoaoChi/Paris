@@ -58,10 +58,10 @@ class ProfileActivity : AppCompatActivity() {
             .setTitle("Excluir Conta: ")
             .setPositiveButton("Sim") { dialog, wich ->
                 preferencesManager.logout()
-                deleteUser()
                 startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
                 finishAffinity()
+                deleteUser()
             }
             .setNegativeButton("Não") { dialog, wich ->
                 Toast.makeText(this, "Sua conta não foi cancelada", Toast.LENGTH_SHORT).show()

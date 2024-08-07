@@ -39,16 +39,21 @@ class CadastroActivity : AppCompatActivity() {
             val img = binding.botaoAddImagem.text.toString()
             val context = this
 
-            val user = User(name, email, password, img)
-            lifecycleScope.launch {
-                val isValid = checkEmail(email)
-                if (isValid) {
-                    cardJaExiste(email)
-                } else {
-                    parisApi.saveUser(user)
-                    val loginActivity = Intent(context, LoginActivity::class.java)
-                    startActivity(loginActivity)
+            if (email.contains('@')) {
+
+                val user = User(name, email, password, img)
+                lifecycleScope.launch {
+                    val isValid = checkEmail(email)
+                    if (isValid) {
+                        cardJaExiste(email)
+                    } else {
+                        parisApi.saveUser(user)
+                        val loginActivity = Intent(context, LoginActivity::class.java)
+                        startActivity(loginActivity)
+                    }
                 }
+            } else{
+                Toast.makeText(this, "Por favor adicione um email que contenha @", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -71,8 +76,6 @@ class CadastroActivity : AppCompatActivity() {
         return if (email.isNotEmpty()) {
             users = parisApi.getUsers()
             users.values.any { it.email == email }
-            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
-            email.matches(emailRegex.toRegex())
         } else {
             false
         }
