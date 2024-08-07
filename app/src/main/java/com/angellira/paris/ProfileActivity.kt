@@ -12,12 +12,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.angellira.paris.databinding.ActivityProfileBinding
 import com.angellira.paris.network.ParisApi
-import com.angellira.paris.network.User
 import com.angellira.paris.preferences.PreferencesManager
 import kotlinx.coroutines.launch
-import okhttp3.Callback
-import okhttp3.Response
-import retrofit2.Call
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -45,7 +41,7 @@ class ProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Deslogado", Toast.LENGTH_SHORT).show()
                 preferencesManager.logout()
                 startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+                finishAffinity()
             }
             .setNegativeButton("Cancelar") { dialog, wich ->
             }
@@ -61,11 +57,11 @@ class ProfileActivity : AppCompatActivity() {
             .setMessage("Certeza que deseja excluir sua conta? você não poderá recuperá-la depois!")
             .setTitle("Excluir Conta: ")
             .setPositiveButton("Sim") { dialog, wich ->
-                startActivity(Intent(this, LoginActivity::class.java))
+                preferencesManager.logout()
                 deleteUser()
+                startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
-                preferencesManager.isLogged = false
-                finish()
+                finishAffinity()
             }
             .setNegativeButton("Não") { dialog, wich ->
                 Toast.makeText(this, "Sua conta não foi cancelada", Toast.LENGTH_SHORT).show()
@@ -82,7 +78,7 @@ class ProfileActivity : AppCompatActivity() {
             .setMessage("Certeza Que deseja alterar sua senha? Você será direcionado a página de alteração.")
             .setTitle("Atualizar Senha: ")
             .setPositiveButton("Sim") { dialog, wich ->
-                startActivity(Intent(this, EditSenha::class.java))
+                startActivity(Intent(this, EditSenhaActivity::class.java))
             }
             .setNegativeButton("Cancelar") { dialog, wich ->
             }

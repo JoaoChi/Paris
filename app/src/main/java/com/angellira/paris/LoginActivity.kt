@@ -31,10 +31,9 @@ class LoginActivity : AppCompatActivity() {
         val SharedPref = getSharedPreferences(
             "USER_PREFERENCES", Context.MODE_PRIVATE
         )
-
         preferencesManager = PreferencesManager(this)
+        setContentView(R.layout.activity_main)
 
-            setContentView(R.layout.activity_main)
             setupView()
             setupLoginButton(SharedPref)
             setupRegisterButton()
@@ -55,7 +54,9 @@ class LoginActivity : AppCompatActivity() {
                     val startMain = Intent(context, MainActivity::class.java)
                     startActivity(startMain)
                     finish()
+                    preferencesManager.isLogged = true
                 } else {
+                    preferencesManager.isLogged = false
                     Toast.makeText(context, "Email ou senha inválidos.", Toast.LENGTH_SHORT).show()
                 }
             }

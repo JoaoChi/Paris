@@ -6,13 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.angellira.paris.databinding.ActivityClickImagemMarsBinding
-import kotlinx.coroutines.launch
 
 
-class ClickImagemMars : AppCompatActivity() {
+class ClickImagemAcitivity : AppCompatActivity() {
     private lateinit var binding: ActivityClickImagemMarsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

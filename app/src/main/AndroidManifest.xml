@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".EditSenha"
+            android:name=".EditSenhaActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
@@ -25,7 +25,7 @@
             android:exported="false"
             android:theme="@style/Base.Theme.Paris" />
         <activity
-            android:name=".ClickImagemMars"
+            android:name=".ClickImagemAcitivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

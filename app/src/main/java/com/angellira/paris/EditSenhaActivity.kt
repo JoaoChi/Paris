@@ -1,27 +1,20 @@
 package com.angellira.paris
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.angellira.paris.databinding.ActivityEditSenhaBinding
-import com.angellira.paris.databinding.ActivityLoginBinding
-import com.angellira.paris.databinding.ActivityProfileBinding
 import com.angellira.paris.network.ParisApi
-import com.angellira.paris.network.ParisApiService
 import com.angellira.paris.network.User
 import com.angellira.paris.preferences.PreferencesManager
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
-class EditSenha : AppCompatActivity() {
+class EditSenhaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditSenhaBinding
     private lateinit var preferencesManager: PreferencesManager
@@ -32,9 +25,25 @@ class EditSenha : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         preferencesManager = PreferencesManager(this)
 
+        printarDados()
         setupView()
         editSenha()
         botaoVoltar()
+    }
+
+    private fun printarDados() {
+        lifecycleScope.launch {
+            val meuID = preferencesManager.userId
+            val users = parisApi.getUser(meuID.toString())
+
+            val AtualPassword = users.password
+            val Nome = users.name
+            val email = users.email
+
+            binding.textemail.text = "Email: ${email}"
+            binding.textusername.text = "User: ${Nome}"
+            binding.textsenhaAtual.text = "Senha atual: ${AtualPassword}"
+        }
     }
 
     private fun editSenha() {
@@ -42,7 +51,7 @@ class EditSenha : AppCompatActivity() {
             lifecycleScope.launch {
                 val meuID = preferencesManager.userId
                 if (meuID.isNullOrEmpty()) {
-                    Toast.makeText(this@EditSenha, "ID do usuário não encontrado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditSenhaActivity, "ID do usuário não encontrado", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
 
@@ -65,14 +74,15 @@ class EditSenha : AppCompatActivity() {
                         val response = parisApi.editUser(meuID, editarUsuario)
 
                         if (response.isSuccessful) {
-                            Toast.makeText(this@EditSenha, "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@EditSenhaActivity, "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@EditSenhaActivity, MainActivity::class.java))
                         } else {
-                            Toast.makeText(this@EditSenha, "Erro ao atualizar a senha.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@EditSenhaActivity, "Erro ao atualizar a senha.", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                 } catch (e: Exception) {
-                    Toast.makeText(this@EditSenha, "Erro ao buscar usuário.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditSenhaActivity, "Erro ao buscar usuário.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

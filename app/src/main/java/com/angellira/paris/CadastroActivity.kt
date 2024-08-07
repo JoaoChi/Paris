@@ -71,6 +71,8 @@ class CadastroActivity : AppCompatActivity() {
         return if (email.isNotEmpty()) {
             users = parisApi.getUsers()
             users.values.any { it.email == email }
+            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+            email.matches(emailRegex.toRegex())
         } else {
             false
         }

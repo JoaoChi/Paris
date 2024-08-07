@@ -44,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(1.seconds)
             withContext(Main) {
-                if (true) {
+                if (preferencesManager.isLogged) {
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 } else {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

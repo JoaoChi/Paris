@@ -1,6 +1,5 @@
 package com.angellira.paris
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -55,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 val adapter = FotosListAdapter(
                     listSports,
                     onItemClickListener = { source, nome, descricao ->
-                        val intent = Intent(this@MainActivity, ClickImagemMars::class.java)
+                        val intent = Intent(this@MainActivity, ClickImagemAcitivity::class.java)
                         intent.putExtra("descricao", descricao)
                         intent.putExtra("photo_mars", source)
                         intent.putExtra("nome_esporte", nome)
