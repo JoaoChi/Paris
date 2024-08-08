@@ -57,11 +57,16 @@ class ProfileActivity : AppCompatActivity() {
             .setMessage("Certeza que deseja excluir sua conta? você não poderá recuperá-la depois!")
             .setTitle("Excluir Conta: ")
             .setPositiveButton("Sim") { dialog, wich ->
-                preferencesManager.logout()
-                startActivity(Intent(this, LoginActivity::class.java))
-                Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
-                finishAffinity()
-                deleteUser()
+                try {
+
+                    deleteUser()
+                    startActivity(Intent(this, CadastroActivity::class.java))
+                    Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
+                    preferencesManager.logout()
+                    finishAffinity()
+                } catch (e:Exception){
+                    Toast.makeText(this, "Erro", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Não") { dialog, wich ->
                 Toast.makeText(this, "Sua conta não foi cancelada", Toast.LENGTH_SHORT).show()
