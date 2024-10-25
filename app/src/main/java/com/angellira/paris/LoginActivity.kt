@@ -40,8 +40,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-
-
     private fun setupLoginButton(SharedPref: SharedPreferences) {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()

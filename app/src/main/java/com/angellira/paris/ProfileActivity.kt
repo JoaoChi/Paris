@@ -60,7 +60,7 @@ class ProfileActivity : AppCompatActivity() {
                 try {
 
                     deleteUser()
-                    startActivity(Intent(this, CadastroActivity::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
                     Toast.makeText(this, "Sua conta foi deletada!", Toast.LENGTH_SHORT).show()
                     preferencesManager.logout()
                     finishAffinity()
